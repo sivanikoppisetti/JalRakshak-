@@ -46,6 +46,21 @@ st.markdown(
         color: #ffffff !important;
     }
 
+    [data-testid="stSidebar"] [data-testid="stSelectbox"] [data-baseweb="select"],
+    [data-testid="stSidebar"] [data-testid="stSelectbox"] [data-baseweb="select"] * {
+        color: #173b61 !important;
+    }
+
+    [data-baseweb="popover"] [role="option"] {
+        color: #173b61 !important;
+        background-color: #ffffff !important;
+    }
+
+    [data-baseweb="popover"] [role="option"]:hover {
+       background-color: #e8f3fb !important;
+       color: #073b70 !important;
+    }
+
     [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p {
         color: #dceeff !important;
     }
