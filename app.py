@@ -941,36 +941,36 @@ elif menu == "📊 Reports":
                         )
 
                         
-# Calculate complaint counts
-pending_reports = int(
-    (report_df["status"].astype(str).str.strip().str.lower() == "pending").sum()
-)
+                        # Calculate complaint counts
+                        pending_reports = int(
+                            (report_df["status"].astype(str).str.strip().str.lower() == "pending").sum()
+                        )
 
-progress_reports = int(
-    (report_df["status"].astype(str).str.strip().str.lower() == "in progress").sum()
-)
+                        progress_reports = int(
+                            (report_df["status"].astype(str).str.strip().str.lower() == "in progress").sum()
+                        )
 
-resolved_reports = int(
-    (report_df["status"].astype(str).str.strip().str.lower() == "resolved").sum()
-)
+                       resolved_reports = int(
+                            (report_df["status"].astype(str).str.strip().str.lower() == "resolved").sum()
+                       )
 
-# Create PDF report
-pdf_story = [
-    Paragraph("JalRakshak - Water Issue Report", pdf_title_style),
-    Paragraph(
-        f"Generated on: {datetime.now().strftime('%d-%m-%Y %H:%M')}",
-        pdf_styles["Normal"],
-    ),
-    Spacer(1, 5 * mm),
-    Paragraph(
-        f"Total complaints: {len(report_df)}"
-        f"&nbsp;&nbsp; Pending: {pending_reports}"
-        f"&nbsp;&nbsp; In Progress: {progress_reports}"
-        f"&nbsp;&nbsp; Resolved: {resolved_reports}",
-        pdf_styles["Normal"],
-    ),
-    Spacer(1, 4 * mm),
-]
+                       # Create PDF report
+                       pdf_story = [
+                            Paragraph("JalRakshak - Water Issue Report", pdf_title_style),
+                            Paragraph(
+                                f"Generated on: {datetime.now().strftime('%d-%m-%Y %H:%M')}",
+                                pdf_styles["Normal"],
+                       ),
+                       Spacer(1, 5 * mm),
+                       Paragraph(
+                           f"Total complaints: {len(report_df)}"
+                           f"&nbsp;&nbsp; Pending: {pending_reports}"
+                           f"&nbsp;&nbsp; In Progress: {progress_reports}"
+                           f"&nbsp;&nbsp; Resolved: {resolved_reports}",
+                           pdf_styles["Normal"],
+                           ),
+                          Spacer(1, 4 * mm),
+                       ]
 
 
                         pdf_columns = [
