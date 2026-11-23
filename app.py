@@ -81,11 +81,30 @@ st.markdown(
         color: #e8f4ff !important;
         font-weight: 600;
     }
-
+ 
+    /* Sidebar navigation dropdown */
     [data-testid="stSidebar"] [data-baseweb="select"] > div {
-        background: rgba(255,255,255,0.13);
-        border: 1px solid rgba(255,255,255,0.28);
-        border-radius: 10px;
+        background: #ffffff !important;
+        border: 1px solid #d5e3ef !important;
+        border-radius: 10px !important;
+    }
+
+    /* Selected page name */
+    [data-testid="stSidebar"] [data-baseweb="select"] * {
+       color: #173b61 !important;
+       -webkit-text-fill-color: #173b61 !important;
+    }
+
+    /* Dropdown options */
+    [data-baseweb="popover"] [role="option"],
+    [data-baseweb="popover"] [role="option"] * {
+        color: #173b61 !important;
+        background-color: #ffffff !important;
+    }
+
+    /* Dropdown hover */
+    [data-baseweb="popover"] [role="option"]:hover {
+        background-color: #e8f3fb !important;
     }
 
     .brand-block {
