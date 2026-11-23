@@ -332,6 +332,16 @@ st.markdown(
     </style>
     """,
     unsafe_allow_html=True,
+
+    body [data-testid="stSidebar"] div[data-baseweb="select"] [role="combobox"],
+    body [data-testid="stSidebar"] div[data-baseweb="select"] [role="combobox"] * {
+         color: #173b61 !important;
+         -webkit-text-fill-color: #173b61 !important;
+    }
+
+    body [data-testid="stSidebar"] div[data-baseweb="select"] > div {
+          background-color: #ffffff !important;
+    }
 )
 
 # --------------------------------
