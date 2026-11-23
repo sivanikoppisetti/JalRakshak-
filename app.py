@@ -950,9 +950,9 @@ elif menu == "📊 Reports":
                             (report_df["status"].astype(str).str.strip().str.lower() == "in progress").sum()
                         )
 
-                       resolved_reports = int(
+                        resolved_reports = int(
                             (report_df["status"].astype(str).str.strip().str.lower() == "resolved").sum()
-                       )
+                        )
 
                        # Create PDF report
                        pdf_story = [
