@@ -52,51 +52,47 @@ st.markdown(
         color: #dceeff !important;
     }
 
-    /* SIDEBAR NAVIGATION CARDS */
-    [data-testid="stSidebar"] [data-testid="stRadio"] {
+    /* SIDEBAR NAVIGATION BUTTONS */
+    [data-testid="stSidebar"] div[data-testid="stButton"] {
         width: 100%;
     }
 
-    [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: stretch !important;
-        gap: 10px !important;
+    [data-testid="stSidebar"] div[data-testid="stButton"] > button {
         width: 100% !important;
-    }
-
-    [data-testid="stSidebar"] [data-testid="stRadio"] [role="radiogroup"] > label {
+        min-height: 44px !important;
         display: flex !important;
+        justify-content: flex-start !important;
         align-items: center !important;
-        width: 100% !important;
-        min-width: 100% !important;
-        box-sizing: border-box !important;
-        background-color: #ffffff !important;
+        background: #ffffff !important;
+        color: #173b61 !important;
+        -webkit-text-fill-color: #173b61 !important;
         border: 1px solid #dce8f2 !important;
         border-radius: 10px !important;
-        padding: 11px 12px !important;
-        margin: 0 !important;
-        transition: background-color 0.2s ease, border-color 0.2s ease;
+        padding: 10px 13px !important;
+        margin: 0 0 9px 0 !important;
+        box-shadow: none !important;
+        font-weight: 600 !important;
+        text-align: left !important;
     }
 
-    [data-testid="stSidebar"] [data-testid="stRadio"] label,
-    [data-testid="stSidebar"] [data-testid="stRadio"] label * {
+    [data-testid="stSidebar"] div[data-testid="stButton"] > button p,
+    [data-testid="stSidebar"] div[data-testid="stButton"] > button span {
         color: #173b61 !important;
         -webkit-text-fill-color: #173b61 !important;
     }
 
-    /* Hide the radio control itself; keep the option text visible */
-    [data-testid="stSidebar"] [data-testid="stRadio"] input[type="radio"],
-    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-child {
-        display: none !important;
-    }
-
-    [data-testid="stSidebar"] [data-testid="stRadio"] label:hover {
-        background-color: #e8f3fb !important;
+    [data-testid="stSidebar"] div[data-testid="stButton"] > button:hover {
+        background: #e8f3fb !important;
         border-color: #8bbde0 !important;
+        color: #173b61 !important;
     }
 
-    .brand-block {
+    [data-testid="stSidebar"] div[data-testid="stButton"] > button:focus {
+        border-color: #69a9d5 !important;
+        box-shadow: 0 0 0 2px rgba(105, 169, 213, 0.2) !important;
+        color: #173b61 !important;
+    }
+
         padding: 8px 4px 22px 4px;
     }
 
@@ -162,6 +158,7 @@ st.markdown(
         box-shadow: 0 10px 28px rgba(7, 74, 125, 0.15);
     }
 
+    
     .hero h2 {
         color: white;
         font-size: 25px;
@@ -278,7 +275,7 @@ st.markdown(
         min-height: 42px;
     }
 
-    div.stButton > button:hover,
+     div.stButton > button:hover,
     div.stFormSubmitButton > button:hover {
         background: #064f82;
         color: white;
@@ -293,7 +290,7 @@ st.markdown(
         box-shadow: 0 4px 14px rgba(26, 67, 105, 0.04);
     }
 
-     div[data-testid="stTextInput"] input,
+    div[data-testid="stTextInput"] input,
     div[data-testid="stTextArea"] textarea {
         border-radius: 9px;
     }
@@ -322,7 +319,7 @@ st.markdown(
       
     </style>
     """, unsafe_allow_html=True
-)      
+)   
 
 # --------------------------------
 # SUPABASE CONNECTION
@@ -446,16 +443,47 @@ with st.sidebar:
     st.markdown("---")
     st.caption("MAIN MENU")
 
-    menu = st.radio(
-        "Choose a page",
-        [
-            "🏠 Home",
-            "📝 Report Water Issue",
-            "🔎 My Complaints",
-            "🛡️ Admin Dashboard",
-        ],
-        label_visibility="collapsed",
-    )
+    # Keep the selected page between Streamlit reruns.
+    if "jr_current_page" not in st.session_state:
+        st.session_state["jr_current_page"] = "🏠 Home"
+
+    menu = st.session_state["jr_current_page"]
+
+    if st.button(
+        "🏠 Home",
+        key="jr_nav_home",
+        use_container_width=True,
+        type="primary" if menu == "🏠 Home" else "secondary",
+    ):
+        st.session_state["jr_current_page"] = "🏠 Home"
+        st.rerun()
+
+    if st.button(
+        "📝 Report Water Issue",
+        key="jr_nav_report",
+        use_container_width=True,
+        type="primary" if menu == "📝 Report Water Issue" else "secondary",
+    ):
+        st.session_state["jr_current_page"] = "📝 Report Water Issue"
+        st.rerun()
+
+    if st.button(
+        "🔎 My Complaints",
+        key="jr_nav_tracking",
+        use_container_width=True,
+        type="primary" if menu == "🔎 My Complaints" else "secondary",
+    ):
+        st.session_state["jr_current_page"] = "🔎 My Complaints"
+        st.rerun()
+
+    if st.button(
+        "🛡️ Admin Dashboard",
+        key="jr_nav_admin",
+        use_container_width=True,
+        type="primary" if menu == "🛡️ Admin Dashboard" else "secondary",
+    ):
+        st.session_state["jr_current_page"] = "🛡️ Admin Dashboard"
+        st.rerun()
 
     st.markdown("---")
     st.markdown(
@@ -644,6 +672,7 @@ elif menu == "📝 Report Water Issue":
             else:
                 st.warning("Please enter your name and problem description.")
 
+
 # --------------------------------
 # MY COMPLAINTS
 # --------------------------------
@@ -697,8 +726,7 @@ elif menu == "🔎 My Complaints":
                     st.error("Unable to track complaint.")
                     st.error(str(e))
             else:
-               st.warning("Please enter both Complaint ID and Name.")
-
+                st.warning("Please enter both Complaint ID and Name.")
 
 # --------------------------------
 # ADMIN DASHBOARD
@@ -798,11 +826,10 @@ st.markdown(
         💧 <b>JalRakshak</b> · Smart Community Water Management System<br>
         Every drop counts. Together, let's build a water-conscious campus.
     </div>
-     """,
+    """,
     unsafe_allow_html=True,
 )
 
 
     
-
-
+     
