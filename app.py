@@ -298,6 +298,7 @@ def connect_supabase():
     key = st.secrets["supabase"]["secret_key"]
     return create_client(url, key)
 
+
 try:
     supabase = connect_supabase()
 except Exception as e:
@@ -348,7 +349,8 @@ def update_complaint_status(complaint_id, new_status):
         .execute()
     )
     return response.data
-    
+
+
 # --------------------------------
 # REUSABLE DISPLAY HELPERS
 # --------------------------------
@@ -442,7 +444,7 @@ except Exception as e:
     st.error(str(e))
     st.stop()
 
-    total = len(complaints)
+total = len(complaints)
 pending = sum(c["status"] == "Pending" for c in complaints)
 progress = sum(c["status"] == "In Progress" for c in complaints)
 resolved = sum(c["status"] == "Resolved" for c in complaints)
@@ -487,7 +489,7 @@ if menu == "🏠 Home":
         unsafe_allow_html=True,
     )
 
-st.markdown('<div class="section-heading">What you can do</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-heading">What you can do</div>', unsafe_allow_html=True)
     f1, f2, f3 = st.columns(3)
 
     with f1:
@@ -537,6 +539,7 @@ st.markdown('<div class="section-heading">What you can do</div>', unsafe_allow_h
         unsafe_allow_html=True,
     )
 
+
 # --------------------------------
 # REPORT WATER ISSUE
 # --------------------------------
@@ -584,7 +587,7 @@ elif menu == "📝 Report Water Issue":
 
         submitted = st.form_submit_button("Submit Complaint", use_container_width=True)
 
-if submitted:
+        if submitted:
             if name.strip() and description.strip():
                 try:
                     complaint_id = submit_complaint(
@@ -697,8 +700,8 @@ elif menu == "🛡️ Admin Dashboard":
             if st.button("Logout", use_container_width=True):
                 st.session_state.admin_authenticated = False
                 st.rerun()
-        
-       st.markdown('<div class="section-heading">Manage Water Complaints</div>', unsafe_allow_html=True)
+
+        st.markdown('<div class="section-heading">Manage Water Complaints</div>', unsafe_allow_html=True)
 
         try:
             admin_complaints = get_complaints()
@@ -743,6 +746,8 @@ elif menu == "🛡️ Admin Dashboard":
             st.error("Unable to load admin complaints.")
             st.error(str(e))
 
+
+
 # --------------------------------
 # FOOTER
 # --------------------------------
@@ -759,4 +764,3 @@ st.markdown(
 )
 
 
-                          
