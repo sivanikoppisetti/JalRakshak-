@@ -798,7 +798,9 @@ st.markdown(
         💧 <b>JalRakshak</b> · Smart Community Water Management System<br>
         Every drop counts. Together, let's build a water-conscious campus.
     </div>
-
+     """,
+    unsafe_allow_html=True,
+)
 
 
     
