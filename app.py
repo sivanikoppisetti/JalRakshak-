@@ -463,13 +463,16 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-c1, c2, c3, c4 = st.columns(4)
-statistic_card(c1, "Total Complaints", total, "📋")
-statistic_card(c2, "Pending", pending, "⏳")
-statistic_card(c3, "In Progress", progress, "🔧")
-statistic_card(c4, "Resolved", resolved, "✅")
 
-st.write("")
+if menu in ["🏠 Home", "🛡️ Admin Dashboard"]:
+    c1, c2, c3, c4 = st.columns(4)
+
+    statistic_card(c1, "Total Complaints", total, "📋")
+    statistic_card(c2, "Pending", pending, "⏳")
+    statistic_card(c3, "In Progress", progress, "🔧")
+    statistic_card(c4, "Resolved", resolved, "✅")
+
+    st.write("")
 
 
 # --------------------------------
