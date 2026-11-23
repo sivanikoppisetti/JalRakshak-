@@ -47,64 +47,43 @@ st.markdown(
     }
 
      
-    /* FIX SIDEBAR MENU TEXT VISIBILITY */
-    [data-testid="stSidebar"] div[data-baseweb="select"] * {
-        color: #173b61 !important;
-        -webkit-text-fill-color: #173b61 !important;
-    }
-
-    /* Selected menu background */
-    [data-testid="stSidebar"] div[data-baseweb="select"] > div {
-        background-color: #ffffff !important;
-        border: 1px solid #d5e3ef !important;
-        border-radius: 10px !important;
-    }
-
-    /* Dropdown options */
-    div[data-baseweb="popover"] li,
-    div[data-baseweb="popover"] li * {
-        color: #173b61 !important;
-        -webkit-text-fill-color: #173b61 !important;
-        background-color: #ffffff !important;
-    }  
-
-    /* Dropdown hover */
-    div[data-baseweb="popover"] li:hover {
-        background-color: #e8f3fb !important;
-    }
-
+    /* Sidebar supporting text */
     [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p {
         color: #dceeff !important;
     }
 
-    [data-testid="stSidebar"] .stSelectbox label {
-        color: #e8f4ff !important;
-        font-weight: 600;
-    }
- 
-    /* Sidebar navigation dropdown */
-    [data-testid="stSidebar"] [data-baseweb="select"] > div {
-        background: #ffffff !important;
-        border: 1px solid #d5e3ef !important;
-        border-radius: 10px !important;
+    /* SIDEBAR NAVIGATION CARDS */
+    [data-testid="stSidebar"] [data-testid="stRadio"] {
+        width: 100%;
     }
 
-    /* Selected page name */
-    [data-testid="stSidebar"] [data-baseweb="select"] * {
-       color: #173b61 !important;
-       -webkit-text-fill-color: #173b61 !important;
+    [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] {
+        gap: 10px;
     }
 
-    /* Dropdown options */
-    [data-baseweb="popover"] [role="option"],
-    [data-baseweb="popover"] [role="option"] * {
-        color: #173b61 !important;
+    [data-testid="stSidebar"] [data-testid="stRadio"] label {
         background-color: #ffffff !important;
+        border: 1px solid #dce8f2 !important;
+        border-radius: 10px !important;
+        padding: 11px 12px !important;
+        margin-bottom: 2px !important;
+        transition: background-color 0.2s ease, border-color 0.2s ease;
     }
 
-    /* Dropdown hover */
-    [data-baseweb="popover"] [role="option"]:hover {
+    [data-testid="stSidebar"] [data-testid="stRadio"] label,
+    [data-testid="stSidebar"] [data-testid="stRadio"] label * {
+        color: #173b61 !important;
+        -webkit-text-fill-color: #173b61 !important;
+    }
+
+    /* Hide the radio circles so the options look like navigation buttons */
+    [data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-child {
+        display: none !important;
+    }
+
+    [data-testid="stSidebar"] [data-testid="stRadio"] label:hover {
         background-color: #e8f3fb !important;
+        border-color: #8bbde0 !important;
     }
 
     .brand-block {
@@ -333,7 +312,7 @@ st.markdown(
       
     </style>
     """, unsafe_allow_html=True
-)      
+) 
 
 # --------------------------------
 # SUPABASE CONNECTION
@@ -366,7 +345,6 @@ def get_complaints():
         .execute()
     )
     return response.data
-
 
 def generate_complaint_id():
     date_part = datetime.now(timezone.utc).strftime("%Y%m%d")
@@ -413,6 +391,7 @@ def page_heading(eyebrow, title, description):
     )
 
 
+
 def statistic_card(column, label, value, icon):
     column.markdown(
         f"""
@@ -457,7 +436,7 @@ with st.sidebar:
     st.markdown("---")
     st.caption("MAIN MENU")
 
-    menu = st.selectbox(
+    menu = st.radio(
         "Choose a page",
         [
             "🏠 Home",
@@ -587,7 +566,7 @@ if menu == "🏠 Home":
         </div>
         """,
         unsafe_allow_html=True,
-    )
+    )  
 
 
 # --------------------------------
@@ -812,5 +791,3 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-
-
