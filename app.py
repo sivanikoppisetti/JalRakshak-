@@ -46,19 +46,31 @@ st.markdown(
         color: #ffffff !important;
     }
 
-    [data-testid="stSidebar"] [data-testid="stSelectbox"] [data-baseweb="select"],
-    [data-testid="stSidebar"] [data-testid="stSelectbox"] [data-baseweb="select"] * {
+     
+    /* FIX SIDEBAR MENU TEXT VISIBILITY */
+    [data-testid="stSidebar"] div[data-baseweb="select"] * {
         color: #173b61 !important;
+        -webkit-text-fill-color: #173b61 !important;
     }
 
-    [data-baseweb="popover"] [role="option"] {
-        color: #173b61 !important;
+    /* Selected menu background */
+    [data-testid="stSidebar"] div[data-baseweb="select"] > div {
         background-color: #ffffff !important;
+        border: 1px solid #d5e3ef !important;
+        border-radius: 10px !important;
     }
 
-    [data-baseweb="popover"] [role="option"]:hover {
-       background-color: #e8f3fb !important;
-       color: #073b70 !important;
+    /* Dropdown options */
+    div[data-baseweb="popover"] li,
+    div[data-baseweb="popover"] li * {
+        color: #173b61 !important;
+        -webkit-text-fill-color: #173b61 !important;
+        background-color: #ffffff !important;
+    }  
+
+    /* Dropdown hover */
+    div[data-baseweb="popover"] li:hover {
+        background-color: #e8f3fb !important;
     }
 
     [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p {
