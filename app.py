@@ -58,15 +58,24 @@ st.markdown(
     }
 
     [data-testid="stSidebar"] [data-testid="stRadio"] > div[role="radiogroup"] {
-        gap: 10px;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+        width: 100% !important;
     }
 
-    [data-testid="stSidebar"] [data-testid="stRadio"] label {
+    [data-testid="stSidebar"] [data-testid="stRadio"] [role="radiogroup"] > label {
+        display: flex !important;
+        align-items: center !important;
+        width: 100% !important;
+        min-width: 100% !important;
+        box-sizing: border-box !important;
         background-color: #ffffff !important;
         border: 1px solid #dce8f2 !important;
         border-radius: 10px !important;
         padding: 11px 12px !important;
-        margin-bottom: 2px !important;
+        margin: 0 !important;
         transition: background-color 0.2s ease, border-color 0.2s ease;
     }
 
@@ -76,7 +85,8 @@ st.markdown(
         -webkit-text-fill-color: #173b61 !important;
     }
 
-    /* Hide the radio circles so the options look like navigation buttons */
+    /* Hide the radio control itself; keep the option text visible */
+    [data-testid="stSidebar"] [data-testid="stRadio"] input[type="radio"],
     [data-testid="stSidebar"] [data-testid="stRadio"] label > div:first-child {
         display: none !important;
     }
@@ -283,7 +293,7 @@ st.markdown(
         box-shadow: 0 4px 14px rgba(26, 67, 105, 0.04);
     }
 
-    div[data-testid="stTextInput"] input,
+     div[data-testid="stTextInput"] input,
     div[data-testid="stTextArea"] textarea {
         border-radius: 9px;
     }
@@ -312,7 +322,7 @@ st.markdown(
       
     </style>
     """, unsafe_allow_html=True
-) 
+)      
 
 # --------------------------------
 # SUPABASE CONNECTION
@@ -345,6 +355,7 @@ def get_complaints():
         .execute()
     )
     return response.data
+
 
 def generate_complaint_id():
     date_part = datetime.now(timezone.utc).strftime("%Y%m%d")
@@ -389,7 +400,6 @@ def page_heading(eyebrow, title, description):
         """,
         unsafe_allow_html=True,
     )
-
 
 
 def statistic_card(column, label, value, icon):
@@ -566,7 +576,7 @@ if menu == "🏠 Home":
         </div>
         """,
         unsafe_allow_html=True,
-    )  
+    )
 
 
 # --------------------------------
@@ -634,7 +644,6 @@ elif menu == "📝 Report Water Issue":
             else:
                 st.warning("Please enter your name and problem description.")
 
-
 # --------------------------------
 # MY COMPLAINTS
 # --------------------------------
@@ -688,7 +697,8 @@ elif menu == "🔎 My Complaints":
                     st.error("Unable to track complaint.")
                     st.error(str(e))
             else:
-                st.warning("Please enter both Complaint ID and Name.")
+               st.warning("Please enter both Complaint ID and Name.")
+
 
 # --------------------------------
 # ADMIN DASHBOARD
@@ -788,6 +798,9 @@ st.markdown(
         💧 <b>JalRakshak</b> · Smart Community Water Management System<br>
         Every drop counts. Together, let's build a water-conscious campus.
     </div>
-    """,
-    unsafe_allow_html=True,
-)
+
+
+
+    
+
+
