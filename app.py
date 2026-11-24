@@ -1228,14 +1228,14 @@ elif menu == "📝 Report Water Issue":
                     current_user = st.session_state.get("jr_user")
                     current_user_id = current_user["id"] if current_user else None
 
-                   complaint_id = submit_complaint(
+                    complaint_id = submit_complaint(
                       name.strip(),
                       category,
                       location,
                       description.strip(),
                       complaint_photo,
                       user_id=current_user_id,
-                   )
+                     )
 
                     st.success("Complaint submitted successfully!")
                     st.markdown(f"**Your Complaint ID:** `{complaint_id}`")
