@@ -1090,6 +1090,11 @@ elif menu == "🔐 Login / Register":
         # --------------------------------
         with register_tab:
             with st.form("jr_register_form"):
+                register_name = st.text_input(
+                     "Full Name",
+                   key="jr_register_name"
+                )
+                
                 register_email = st.text_input(
                     "Email address",
                     key="jr_register_email",
