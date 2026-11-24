@@ -1016,10 +1016,10 @@ if menu == "🏠 Home":
     )
 
 
+
 # --------------------------------
 # LOGIN / REGISTER
 # --------------------------------
-
 
 elif menu == "🔐 Login / Register":
     st.markdown("## Login / Register")
@@ -1029,9 +1029,9 @@ elif menu == "🔐 Login / Register":
         user = st.session_state["jr_user"]
 
         if user.get("name"):
-              st.success(f"Logged in as: {user['name']}")
+            st.success(f"Logged in as: {user['name']}")
         else:
-              st.success(f"Logged in as: {user['email']}")
+            st.success(f"Logged in as: {user['email']}")
 
         if st.button("Logout", key="jr_user_logout"):
             try:
@@ -1043,7 +1043,9 @@ elif menu == "🔐 Login / Register":
             st.rerun()
 
     else:
-        login_tab, register_tab = st.tabs(["Login", "Create Account"])
+        login_tab, register_tab = st.tabs(
+            ["Login", "Create Account"]
+        )
 
         # --------------------------------
         # LOGIN
@@ -1051,6 +1053,7 @@ elif menu == "🔐 Login / Register":
         with login_tab:
             with st.form("jr_login_form"):
                 login_email = st.text_input("Email address")
+
                 login_password = st.text_input(
                     "Password",
                     type="password",
@@ -1063,25 +1066,31 @@ elif menu == "🔐 Login / Register":
 
             if login_submit:
                 if not login_email.strip() or not login_password:
-                    st.warning("Please enter your email and password.")
+                    st.warning(
+                        "Please enter your email and password."
+                    )
                 else:
                     try:
-                        response = supabase_auth.auth.sign_in_with_password(
-                            {
-                                "email": login_email.strip(),
-                                "password": login_password,
-                            }
+                        response = (
+                            supabase_auth.auth.sign_in_with_password(
+                                {
+                                    "email": login_email.strip(),
+                                    "password": login_password,
+                                }
+                            )
                         )
 
                         if response.user:
+                            user_metadata = (
+                                response.user.user_metadata or {}
+                            )
+
                             st.session_state["jr_user"] = {
                                 "id": str(response.user.id),
                                 "email": response.user.email,
-                                "name": (
-                                    response.user.user_metadata.get("full_name", "")
-                                    if response.user.user_metadata
-                                    else ""
-                                )
+                                "name": user_metadata.get(
+                                    "full_name", ""
+                                ),
                             }
 
                             st.success("Login successful!")
@@ -1089,8 +1098,8 @@ elif menu == "🔐 Login / Register":
 
                     except Exception:
                         st.error(
-                            "Login failed. Check your email and password, "
-                            "or confirm your email first."
+                            "Login failed. Check your email and "
+                            "password, or confirm your email first."
                         )
 
         # --------------------------------
@@ -1099,10 +1108,10 @@ elif menu == "🔐 Login / Register":
         with register_tab:
             with st.form("jr_register_form"):
                 register_name = st.text_input(
-                     "Full Name",
-                   key="jr_register_name"
+                    "Full Name",
+                    key="jr_register_name",
                 )
-                
+
                 register_email = st.text_input(
                     "Email address",
                     key="jr_register_email",
@@ -1126,11 +1135,18 @@ elif menu == "🔐 Login / Register":
                 )
 
             if register_submit:
-                if not register_email.strip():
-                    st.warning("Please enter your email address.")
+                if not register_name.strip():
+                    st.warning("Please enter your full name.")
+
+                elif not register_email.strip():
+                    st.warning(
+                        "Please enter your email address."
+                    )
 
                 elif len(register_password) < 8:
-                    st.warning("Password must contain at least 8 characters.")
+                    st.warning(
+                        "Password must contain at least 8 characters."
+                    )
 
                 elif register_password != confirm_password:
                     st.warning("The passwords do not match.")
@@ -1142,36 +1158,42 @@ elif menu == "🔐 Login / Register":
                                 "email": register_email.strip(),
                                 "password": register_password,
                                 "options": {
-                                     "data": {
-                                           "full_name": register_name.strip()
-                                         }
-                                    }                             
-                             }
+                                    "data": {
+                                        "full_name": register_name.strip()
+                                    }
+                                },
+                            }
                         )
 
                         if response.user and response.session:
                             st.session_state["jr_user"] = {
                                 "id": str(response.user.id),
                                 "email": response.user.email,
+                                "name": register_name.strip(),
                             }
 
-                            st.success("Account created and logged in!")
+                            st.success(
+                                "Account created and logged in!"
+                            )
                             st.rerun()
 
                         elif response.user:
                             st.success(
-                                "Account created! Please check your email "
-                                "and click the confirmation link before logging in."
+                                "Account created! Please check your "
+                                "email and click the confirmation "
+                                "link before logging in."
                             )
 
                         else:
-                            st.error("Account creation could not be completed.")
+                            st.error(
+                                "Account creation could not be completed."
+                            )
 
                     except Exception:
                         st.error(
-                            "Registration failed. The email may already be "
-                            "registered, or the password may not meet "
-                            "Supabase requirements."
+                            "Registration failed. The email may "
+                            "already be registered, or the password "
+                            "may not meet Supabase requirements."
                         )
 
 
