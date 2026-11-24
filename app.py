@@ -1561,35 +1561,116 @@ elif menu == "📊 Reports":
                     )
                     st.altair_chart(location_chart, use_container_width=True)
 
+                    
                 # 5. Average resolution time.
                 with st.container(border=True):
                     st.markdown("#### 5. Average Complaint Resolution Time")
+
                     valid_resolved = report_df[
                         (report_df["status"] == "Resolved")
                         & report_df["created_at_dt"].notna()
                         & report_df["resolved_at_dt"].notna()
                     ].copy()
+
                     valid_resolved["resolution_hours"] = (
-                        valid_resolved["resolved_at_dt"] - valid_resolved["created_at_dt"]
+                        valid_resolved["resolved_at_dt"]
+                        - valid_resolved["created_at_dt"]
                     ).dt.total_seconds() / 3600
-                    valid_resolved = valid_resolved[valid_resolved["resolution_hours"] >= 0]
+
+                    valid_resolved = valid_resolved[
+                        valid_resolved["resolution_hours"] >= 0
+                    ]
 
                     if not valid_resolved.empty:
-                        average_hours = float(valid_resolved["resolution_hours"].mean())
-                        avg_col, count_col = st.columns(2)
-                        avg_col.metric("Average Resolution Time", f"{average_hours:.2f} hours")
-                        count_col.metric(
-                            "Resolved Complaints with Timestamps",
-                            int(len(valid_resolved)),
+                        average_hours = float(
+                            valid_resolved["resolution_hours"].mean()
                         )
-                        st.caption(
-                            f"Approximately {average_hours / 24:.2f} days. "
-                            "Records without valid resolved_at timestamps are excluded."
+
+                        total_resolved = int(len(valid_resolved))
+
+                        st.markdown(
+                            f"""
+                            <div style="
+                                display: grid;
+                                grid-template-columns:
+                                repeat(auto-fit, minmax(240px, 1fr));
+                                gap: 16px;
+                                margin: 15px 0;
+                            ">
+
+                                <div style="
+                                    background-color: #EAF2FF;
+                                    border: 1px solid #C9DDF7;
+                                    border-radius: 12px;
+                                    padding: 20px;
+                                ">
+                                    <div style="
+                                        color: #24466F !important;
+                                        -webkit-text-fill-color: #24466F;
+                                        font-size: 14px;
+                                        font-weight: 600;
+                                        margin-bottom: 10px;
+                                    ">
+                                        Average Resolution Time
+                                    </div>
+
+                                    <div style="
+                                        color: #123B70 !important;
+                                        -webkit-text-fill-color: #123B70;
+                                        font-size: 30px;
+                                        font-weight: 800;
+                                    ">
+                                        {average_hours:.2f} hours
+                                    </div>
+                                </div>
+
+                                <div style="
+                                    background-color: #E8F6ED;
+                                    border: 1px solid #BCE5CA;
+                                    border-radius: 12px;
+                                    padding: 20px;
+                                ">
+                                    <div style="
+                                        color: #246044 !important;
+                                        -webkit-text-fill-color: #246044;
+                                        font-size: 14px;
+                                        font-weight: 600;
+                                        margin-bottom: 10px;
+                                    ">
+                                        Resolved Complaints with Timestamps
+                                    </div>
+
+                                    <div style="
+                                        color: #146C43 !important;
+                                        -webkit-text-fill-color: #146C43;
+                                        font-size: 30px;
+                                        font-weight: 800;
+                                    ">
+                                        {total_resolved}
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <p style="
+                                color: #344054 !important;
+                                -webkit-text-fill-color: #344054;
+                                font-size: 13px;
+                                margin-top: 8px;
+                            ">
+                                Approximately {average_hours / 24:.2f} days.
+                                Records without valid resolved_at timestamps
+                                are excluded.
+                            </p>
+                            """,
+                            unsafe_allow_html=True
                         )
+
                     else:
                         st.info(
-                            "Average resolution time will appear after at least one resolved "
-                            "complaint has valid created_at and resolved_at timestamps."
+                            "Average resolution time will appear after at least "
+                            "one resolved complaint has valid created_at and "
+                            "resolved_at timestamps."
                         )
 
         except Exception as e:
