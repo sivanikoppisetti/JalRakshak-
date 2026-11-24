@@ -614,10 +614,13 @@ st.markdown(
     """, unsafe_allow_html=True
 )      
 
+
+
 # --------------------------------
 # SUPABASE CONNECTION
 # --------------------------------
 
+# Existing connection for current complaint and admin features
 @st.cache_resource
 def connect_supabase():
     url = st.secrets["supabase"]["url"]
@@ -625,11 +628,28 @@ def connect_supabase():
     return create_client(url, key)
 
 
+# New connection for user authentication
+@st.cache_resource
+def connect_supabase_auth():
+    url = st.secrets["supabase"]["url"]
+    key = st.secrets["supabase"]["publishable_key"]
+    return create_client(url, key)
+
+
+# Existing main Supabase connection
 try:
     supabase = connect_supabase()
 except Exception as e:
     st.error("Could not connect to Supabase. Please check the app configuration.")
     st.error(str(e))
+    st.stop()
+
+
+# Separate Supabase connection for authentication
+try:
+    supabase_auth = connect_supabase_auth()
+except Exception:
+    st.error("Could not initialize Supabase authentication. Please check the app configuration.")
     st.stop()
 
 
