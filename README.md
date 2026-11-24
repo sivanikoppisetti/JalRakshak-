@@ -46,7 +46,7 @@ JalRakshak is a web-based application designed to manage water-related complaint
 4. Upload a related image if required.
 5. Submit the complaint and note the generated Complaint ID.
 6. Use the Complaint ID to track its status.
-7. Administrators review complaints in the admin dashboard and update their status as action is taken.
+7. Administrators review complaints in the admin dashboard and update their status as action is taken
 
 ## Technologies Used
 
