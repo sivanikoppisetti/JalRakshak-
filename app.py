@@ -1,7 +1,7 @@
 import streamlit as st
 from supabase import create_client
 from datetime import datetime, timezone
-from uuid import uuid4elif
+from uuid import uuid4
 import hmac
 import textwrap
 import html
