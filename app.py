@@ -1133,7 +1133,7 @@ elif menu == "🔐 Login / Register":
                                            "full_name": register_name.strip()
                                          }
                                     }                             
-                            }
+                             }
                         )
 
                         if response.user and response.session:
