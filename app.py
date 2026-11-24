@@ -628,8 +628,8 @@ def connect_supabase():
     return create_client(url, key)
 
 
-# New connection for user authentication
-@st.cache_resource
+# Authentication connection
+# Do NOT cache this client globally.
 def connect_supabase_auth():
     url = st.secrets["supabase"]["url"]
     key = st.secrets["supabase"]["publishable_key"]
@@ -639,18 +639,21 @@ def connect_supabase_auth():
 # Existing main Supabase connection
 try:
     supabase = connect_supabase()
-except Exception as e:
-    st.error("Could not connect to Supabase. Please check the app configuration.")
-    st.error(str(e))
-    st.stop()
-
-
-# Separate Supabase connection for authentication
-try:
-    supabase_auth = connect_supabase_auth()
 except Exception:
-    st.error("Could not initialize Supabase authentication. Please check the app configuration.")
+    st.error("Could not connect to Supabase. Please check the app configuration.")
     st.stop()
+
+
+# Separate authentication client for each Streamlit session
+if "jr_supabase_auth" not in st.session_state:
+    try:
+        st.session_state["jr_supabase_auth"] = connect_supabase_auth()
+    except Exception:
+        st.error("Could not initialize Supabase authentication.")
+        st.stop()
+
+supabase_auth = st.session_state["jr_supabase_auth"]
+
 
 
 # --------------------------------
