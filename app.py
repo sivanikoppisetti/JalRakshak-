@@ -761,6 +761,7 @@ def submit_complaint(
 
 
 
+
 def update_complaint_status(complaint_id, new_status):
     response = (
         supabase.table("complaints")
@@ -1222,13 +1223,20 @@ elif menu == "📝 Report Water Issue":
                     if complaint_photo is not None and complaint_photo.size > MAX_COMPLAINT_PHOTO_BYTES:
                         raise ValueError("The photograph must be 5 MB or smaller.")
 
-                    complaint_id = submit_complaint(
-                        name.strip(),
-                        category,
-                        location,
-                        description.strip(),
-                        complaint_photo,
-                    )
+                    
+                    # Get the logged-in user's ID, or None for a guest
+                    current_user = st.session_state.get("jr_user")
+                    current_user_id = current_user["id"] if current_user else None
+
+                   complaint_id = submit_complaint(
+                      name.strip(),
+                      category,
+                      location,
+                      description.strip(),
+                      complaint_photo,
+                      user_id=current_user_id,
+                   )
+
                     st.success("Complaint submitted successfully!")
                     st.markdown(f"**Your Complaint ID:** `{complaint_id}`")
                     st.info("Please save your Complaint ID to track your complaint later.")
