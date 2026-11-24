@@ -1,7 +1,7 @@
 import streamlit as st
 from supabase import create_client
 from datetime import datetime, timezone
-from uuid import uuid4
+from uuid import uuid4elif
 import hmac
 import textwrap
 import html
@@ -1128,6 +1128,11 @@ elif menu == "🔐 Login / Register":
                             {
                                 "email": register_email.strip(),
                                 "password": register_password,
+                                "options": {
+                                     "data": {
+                                           "full_name": register_name.strip()
+                                         }
+                                    }                             
                             }
                         )
 
