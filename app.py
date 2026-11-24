@@ -1074,6 +1074,11 @@ elif menu == "🔐 Login / Register":
                             st.session_state["jr_user"] = {
                                 "id": str(response.user.id),
                                 "email": response.user.email,
+                                "name": (
+                                    response.user.user_metadata.get("full_name", "")
+                                    if response.user.user_metadata
+                                    else ""
+                                )
                             }
 
                             st.success("Login successful!")
