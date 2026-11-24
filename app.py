@@ -719,9 +719,18 @@ def get_complaint_photo_url(photo_path):
     return None
 
 
-def submit_complaint(name, category, location, description, photo_file=None):
+
+def submit_complaint(
+    name,
+    category,
+    location,
+    description,
+    photo_file=None,
+    user_id=None,
+):
     complaint_id = generate_complaint_id()
     photo_path = upload_complaint_photo(complaint_id, photo_file)
+
     complaint = {
         "id": complaint_id,
         "name": name,
@@ -730,18 +739,26 @@ def submit_complaint(name, category, location, description, photo_file=None):
         "description": description,
         "status": "Pending",
         "photo_path": photo_path,
+        "user_id": user_id,
     }
+
     try:
         supabase.table("complaints").insert(complaint).execute()
+
     except Exception:
         # Avoid leaving an unlinked file behind if the database insert fails.
         if photo_path:
             try:
-                supabase.storage.from_(COMPLAINT_PHOTO_BUCKET).remove([photo_path])
+                supabase.storage.from_(COMPLAINT_PHOTO_BUCKET).remove(
+                    [photo_path]
+                )
             except Exception:
                 pass
+
         raise
+
     return complaint_id
+
 
 
 def update_complaint_status(complaint_id, new_status):
