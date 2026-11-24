@@ -1257,6 +1257,46 @@ elif menu == "🔎 My Complaints":
         "Track Your Complaint",
         "Enter the complaint ID and the name used during submission.",
     )
+     
+    # --------------------------------
+    # LOGGED-IN USER COMPLAINTS
+    # --------------------------------
+
+    current_user = st.session_state.get("jr_user")
+
+    if current_user:
+        st.markdown("### My Submitted Complaints")
+
+        try:
+            my_complaints_response = (
+                supabase_auth.table("complaints")
+                .select("id, category, location, status, created_at")
+                .eq("user_id", current_user["id"])
+                .order("created_at", desc=True)
+                .execute()
+            )
+
+            my_complaints = my_complaints_response.data or []
+
+            if my_complaints:
+                for item in my_complaints:
+                    with st.container(border=True):
+                        st.write(f"**Complaint ID:** {item['id']}")
+                        st.write(f"**Category:** {item['category']}")
+                        st.write(f"**Location:** {item['location']}")
+                        st.write(f"**Submitted:** {item['created_at']}")
+                        st.write("**Status:**")
+                        status_label(item["status"])
+            else:
+                st.info("You have not submitted any complaints using this account.")
+
+        except Exception:
+            st.warning(
+                "Unable to load your complaints. "
+                "Please check the database access permissions."
+            )
+
+        st.markdown("---")
 
     with st.container(border=True):
         complaint_id = st.text_input("Complaint ID", placeholder="Example: JR-20261123-ABC123")
