@@ -824,6 +824,16 @@ with st.sidebar:
     ):
         st.session_state["jr_current_page"] = "🏠 Home"
         st.rerun()
+    
+    if st.button(
+        "🔐 Login / Register",
+        key="jr_nav_auth",
+        use_container_width=True,
+        type="primary" if menu == "🔐 Login / Register" else "secondary",
+    ):
+        st.session_state["jr_current_page"] = "🔐 Login / Register"
+        st.rerun()
+
 
     if st.button(
         "📝 Report Water Issue",
