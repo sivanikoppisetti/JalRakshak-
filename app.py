@@ -996,6 +996,16 @@ if menu == "🏠 Home":
 
 
 # --------------------------------
+# LOGIN / REGISTER
+# --------------------------------
+
+elif menu == "🔐 Login / Register":
+    st.markdown("## Login / Register")
+    st.info("User registration and login will be added here.")
+
+
+
+# --------------------------------
 # REPORT WATER ISSUE
 # --------------------------------
 
