@@ -1028,7 +1028,10 @@ elif menu == "🔐 Login / Register":
     if st.session_state.get("jr_user"):
         user = st.session_state["jr_user"]
 
-        st.success(f"Logged in as: {user['email']}")
+        if user.get("name"):
+              st.success(f"Logged in as: {user['name']}")
+        else:
+              st.success(f"Logged in as: {user['email']}")
 
         if st.button("Logout", key="jr_user_logout"):
             try:
